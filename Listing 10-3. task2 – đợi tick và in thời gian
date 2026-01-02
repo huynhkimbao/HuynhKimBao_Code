@@ -1,0 +1,17 @@
+static void task2(void *args __attribute__((unused))) {
+
+    for (;;) {
+        // Chặn vô hạn cho đến khi ISR thông báo
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
+        // Đảo LED PC13
+        gpio_toggle(GPIOC, GPIO13);
+
+        mutex_lock();
+        std_printf("Time: %3u days %02u:%02u:%02u isr_count: %u, "
+                   "alarms: %u, overflows: %u\n",
+                   days, hours, minutes, seconds,
+                   rtc_isr_count, rtc_alarm_count, rtc_overflow_count);
+        mutex_unlock();
+    }
+}
