@@ -1,0 +1,17 @@
+#include <libopencm3/stm32/exti.h>
+
+exti_set_trigger(EXTI17, EXTI_TRIGGER_RISING);
+exti_enable_request(EXTI17);
+nvic_enable_irq(NVIC_RTC_ALARM_IRQ);
+
+Listing 10-9. rtc_alarm_isr()
+void rtc_alarm_isr(void) {
+    BaseType_t woken = pdFALSE;
+
+    ++rtc_alarm_count;
+    exti_reset_request(EXTI17);  // QUAN TRỌNG: reset EXTI17
+    rtc_clear_flag(RTC_ALR);
+
+    vTaskNotifyGiveFromISR(h_task3, &woken);
+    portYIELD_FROM_ISR(woken);
+}
