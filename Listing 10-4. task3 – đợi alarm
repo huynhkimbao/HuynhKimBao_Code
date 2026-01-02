@@ -1,0 +1,11 @@
+static void task3(void *args __attribute__((unused))) {
+
+    for (;;) {
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
+        mutex_lock();
+        std_printf("*** ALARM *** at %3u days %02u:%02u:%02u\n",
+                   days, hours, minutes, seconds);
+        mutex_unlock();
+    }
+}
