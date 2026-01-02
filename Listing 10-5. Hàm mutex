@@ -1,0 +1,4 @@
+static void mutex_lock(void)   { xSemaphoreTake(h_mutex, portMAX_DELAY); }
+static void mutex_unlock(void) { xSemaphoreGive(h_mutex); }
+Tạo mutex trong main():
+h_mutex = xSemaphoreCreateMutex();
